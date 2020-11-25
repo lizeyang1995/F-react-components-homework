@@ -35,11 +35,18 @@ class Chat extends Component {
   };
 
   wrapInputMessage = (inputMessage) => {
-    return this.state.messages.concat({
+    const customerMessage = {
       text: inputMessage,
       role: 'CUSTOMER',
       tags: inputMessage,
-    });
+    };
+    const robotMessage = answersData.find((answer) =>
+      answer.tags.find((tag) => inputMessage.indexOf(tag) !== -1)
+    );
+    if (robotMessage) {
+      return this.state.messages.concat(customerMessage, robotMessage);
+    }
+    return this.state.messages.concat(customerMessage);
   };
 
   render() {
