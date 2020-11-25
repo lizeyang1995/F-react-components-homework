@@ -27,13 +27,28 @@ class Chat extends Component {
     }, 1000);
   }
 
+  getInputMessage = (inputMessage) => {
+    const wrappedInputMessage = this.wrapInputMessage(inputMessage);
+    this.setState({
+      messages: wrappedInputMessage,
+    });
+  };
+
+  wrapInputMessage = (inputMessage) => {
+    return this.state.messages.concat({
+      text: inputMessage,
+      role: 'CUSTOMER',
+      tags: inputMessage,
+    });
+  };
+
   render() {
     const { shop, messages } = this.state;
     return (
       <main className="Chat">
         <ChatHeader shop={shop} />
         <ChatBox messages={messages} />
-        <ChatInput />
+        <ChatInput getInputMessage={this.getInputMessage} />
       </main>
     );
   }
